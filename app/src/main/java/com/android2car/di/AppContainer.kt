@@ -1,6 +1,7 @@
 package com.android2car.di
 
 import android.content.Context
+import com.android2car.BuildConfig
 import com.android2car.car.CarSurfaceRegistry
 import com.android2car.data.connection.AndroidAutoConnectionRepository
 import com.android2car.data.preferences.DataStoreThemeRepository
@@ -8,6 +9,8 @@ import com.android2car.data.preferences.settingsDataStore
 import com.android2car.domain.repository.CarConnectionRepository
 import com.android2car.domain.repository.ProjectionController
 import com.android2car.domain.repository.ThemeRepository
+import com.android2car.domain.safety.DrivingSafetyPolicy
+import com.android2car.domain.safety.SafetyShutdownCoordinator
 import com.android2car.domain.usecase.CheckCarConnectionUseCase
 import com.android2car.service.ProjectionStateStore
 import com.android2car.service.ServiceProjectionController
@@ -28,4 +31,8 @@ class AppContainer(context: Context) {
     val projectionStateStore = ProjectionStateStore()
 
     val projectionController: ProjectionController = ServiceProjectionController(appContext, projectionStateStore)
+
+    val drivingSafetyPolicy = DrivingSafetyPolicy(stopOnUnknownSpeed = BuildConfig.STOP_ON_UNKNOWN_SPEED)
+
+    val safetyShutdownCoordinator = SafetyShutdownCoordinator(projectionController)
 }

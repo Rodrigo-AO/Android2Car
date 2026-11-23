@@ -5,6 +5,7 @@ import com.android2car.domain.model.CarConnectionStatus
 import com.android2car.domain.model.ProjectionError
 import com.android2car.domain.model.ProjectionState
 import com.android2car.domain.model.ThemeMode
+import com.android2car.domain.safety.ShutdownReason
 import com.android2car.domain.usecase.CheckCarConnectionUseCase
 import com.android2car.testing.FakeCarConnectionRepository
 import com.android2car.testing.FakeConsent
@@ -12,6 +13,7 @@ import com.android2car.testing.FakeProjectionController
 import com.android2car.testing.FakeThemeRepository
 import com.android2car.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -31,6 +33,7 @@ class MainViewModelTest {
     private val connection = FakeCarConnectionRepository(CarConnectionStatus.DISCONNECTED)
     private val projection = FakeProjectionController()
     private val theme = FakeThemeRepository()
+    private val safetyShutdowns = MutableSharedFlow<ShutdownReason>()
 
     private fun TestScope.createViewModel(): MainViewModel =
         MainViewModel(
@@ -38,6 +41,7 @@ class MainViewModelTest {
             carConnectionRepository = connection,
             projectionController = projection,
             themeRepository = theme,
+            safetyShutdowns = safetyShutdowns,
         ).also { viewModel ->
             backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiState.collect {} }
         }
@@ -134,6 +138,17 @@ class MainViewModelTest {
 
         projection.emit(ProjectionState.Failed(ProjectionError.MIRROR_FAILED))
         assertEquals(ScreenShareStatus.Alert(UserAlert.PROJECTION_FAILED), viewModel.uiState.value.status)
+    }
+
+    @Test
+    fun `closes the app when a driving safety shutdown happens`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.effects.test {
+            safetyShutdowns.emit(ShutdownReason.VEHICLE_IN_MOTION)
+
+            assertEquals(MainEffect.CloseApp, awaitItem())
+        }
     }
 
     @Test

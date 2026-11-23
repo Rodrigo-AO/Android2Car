@@ -9,6 +9,7 @@
     <!-- Android Auto: full-screen surface access is only granted to navigation-category apps. -->
     <uses-permission android:name="androidx.car.app.ACCESS_SURFACE" />
     <uses-permission android:name="androidx.car.app.NAVIGATION_TEMPLATES" />
+    <uses-permission android:name="com.google.android.gms.permission.CAR_SPEED" />
 
     <application
         android:name=".Android2CarApplication"
