@@ -59,11 +59,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // Collected for the whole activity lifetime (not only while started) so a driving shutdown
+    // also closes the app when it sits in the background.
     private fun collectEffects() {
         lifecycleScope.launch {
             viewModel.effects.collect { effect ->
                 when (effect) {
                     MainEffect.RequestScreenCapture -> requestScreenCapture()
+                    MainEffect.CloseApp -> finishAndRemoveTask()
                 }
             }
         }

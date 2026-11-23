@@ -30,6 +30,7 @@ enum class UserAlert {
 
 sealed interface MainEffect {
     data object RequestScreenCapture : MainEffect
+    data object CloseApp : MainEffect
 }
 
 internal fun resolveStatus(

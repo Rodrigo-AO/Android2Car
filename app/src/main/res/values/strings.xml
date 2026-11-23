@@ -33,4 +33,7 @@
     <string name="car_message_idle">Pulsa Screen-share en tu móvil para proyectar su pantalla.</string>
     <string name="car_message_starting">Iniciando la proyección…</string>
     <string name="car_message_failed">La proyección falló. Vuelve a intentarlo desde el móvil.</string>
+
+    <string name="shutdown_vehicle_in_motion">Proyección detenida: el vehículo está en movimiento.</string>
+    <string name="shutdown_speed_unavailable">Proyección detenida: no se puede comprobar que el vehículo esté parado.</string>
 </resources>

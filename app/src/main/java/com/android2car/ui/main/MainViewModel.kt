@@ -13,6 +13,7 @@ import com.android2car.domain.model.isActive
 import com.android2car.domain.repository.CarConnectionRepository
 import com.android2car.domain.repository.ProjectionController
 import com.android2car.domain.repository.ThemeRepository
+import com.android2car.domain.safety.ShutdownReason
 import com.android2car.domain.usecase.CheckCarConnectionUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ class MainViewModel(
     carConnectionRepository: CarConnectionRepository,
     private val projectionController: ProjectionController,
     private val themeRepository: ThemeRepository,
+    safetyShutdowns: Flow<ShutdownReason>,
 ) : ViewModel() {
 
     private val isChecking = MutableStateFlow(false)
@@ -37,6 +39,12 @@ class MainViewModel(
     private val effectChannel = Channel<MainEffect>(Channel.BUFFERED)
 
     val effects: Flow<MainEffect> = effectChannel.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            safetyShutdowns.collect { effectChannel.send(MainEffect.CloseApp) }
+        }
+    }
 
     val uiState: StateFlow<MainUiState> = combine(
         themeRepository.themeMode,
@@ -96,6 +104,7 @@ class MainViewModel(
                     carConnectionRepository = container.carConnectionRepository,
                     projectionController = container.projectionController,
                     themeRepository = container.themeRepository,
+                    safetyShutdowns = container.safetyShutdownCoordinator.events,
                 )
             }
         }
