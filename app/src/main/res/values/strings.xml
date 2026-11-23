@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android2Car</string>
+
+    <string name="screen_share">Screen-share</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="main_hint">Conecta el móvil a Android Auto y abre Android2Car en la pantalla del coche para ver la proyección.</string>
+
+    <string name="status_disconnected_title">Desconectado</string>
+    <string name="status_disconnected_description">No hay ninguna sesión de Android Auto activa.</string>
+    <string name="status_checking_title">Comprobando conexión…</string>
+    <string name="status_checking_description">Verificando que Android Auto está conectado al coche.</string>
+    <string name="status_connected_title">Conectado a Android Auto</string>
+    <string name="status_connected_description">Pulsa Screen-share para empezar a proyectar.</string>
+    <string name="status_alert_title">Atención</string>
+
+    <string name="alert_car_not_connected">No se detecta Android Auto. Conecta el móvil al coche (cable o inalámbrico) y vuelve a intentarlo.</string>
 </resources>
