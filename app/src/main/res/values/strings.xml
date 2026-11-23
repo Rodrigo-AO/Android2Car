@@ -3,6 +3,7 @@
     <string name="app_name">Android2Car</string>
 
     <string name="screen_share">Screen-share</string>
+    <string name="stop_screen_share">Detener Screen-share</string>
     <string name="dark_mode">Modo oscuro</string>
     <string name="main_hint">Conecta el móvil a Android Auto y abre Android2Car en la pantalla del coche para ver la proyección.</string>
 
@@ -12,7 +13,24 @@
     <string name="status_checking_description">Verificando que Android Auto está conectado al coche.</string>
     <string name="status_connected_title">Conectado a Android Auto</string>
     <string name="status_connected_description">Pulsa Screen-share para empezar a proyectar.</string>
+    <string name="status_waiting_title">Esperando al coche</string>
+    <string name="status_waiting_description">Abre Android2Car en la pantalla del coche para ver la proyección.</string>
+    <string name="status_projecting_title">Proyectando</string>
+    <string name="status_projecting_description">La pantalla del móvil se está mostrando en el coche. Puedes bloquear el móvil.</string>
     <string name="status_alert_title">Atención</string>
 
     <string name="alert_car_not_connected">No se detecta Android Auto. Conecta el móvil al coche (cable o inalámbrico) y vuelve a intentarlo.</string>
+    <string name="alert_capture_denied">Se necesita el permiso de captura de pantalla para proyectar en el coche.</string>
+    <string name="alert_projection_failed">No se pudo iniciar la proyección. Vuelve a pulsar Screen-share.</string>
+
+    <string name="notification_channel_name">Proyección de pantalla</string>
+    <string name="notification_title">Proyectando en Android Auto</string>
+    <string name="notification_text">La pantalla del móvil se está mostrando en el coche.</string>
+    <string name="notification_action_stop">Detener</string>
+
+    <string name="car_action_stop">Detener</string>
+    <string name="car_action_exit">Salir</string>
+    <string name="car_message_idle">Pulsa Screen-share en tu móvil para proyectar su pantalla.</string>
+    <string name="car_message_starting">Iniciando la proyección…</string>
+    <string name="car_message_failed">La proyección falló. Vuelve a intentarlo desde el móvil.</string>
 </resources>
