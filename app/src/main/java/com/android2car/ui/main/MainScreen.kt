@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -45,7 +46,11 @@ fun MainScreen(
             Spacer(modifier = Modifier.weight(1f))
             StatusCard(status = state.status)
             Spacer(modifier = Modifier.height(32.dp))
-            ScreenShareButton(enabled = !state.isChecking, onClick = onScreenShareClick)
+            ScreenShareButton(
+                isSharing = state.isSharing,
+                enabled = !state.isChecking,
+                onClick = onScreenShareClick,
+            )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(R.string.main_hint),
@@ -90,16 +95,25 @@ private fun DarkThemeToggle(checked: Boolean, onCheckedChange: (Boolean) -> Unit
 }
 
 @Composable
-private fun ScreenShareButton(enabled: Boolean, onClick: () -> Unit) {
+private fun ScreenShareButton(isSharing: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
     Button(
         onClick = onClick,
         enabled = enabled,
         shape = RoundedCornerShape(28.dp),
+        colors = if (isSharing) {
+            ButtonDefaults.buttonColors(containerColor = colors.secondary, contentColor = colors.onSecondary)
+        } else {
+            ButtonDefaults.buttonColors()
+        },
         modifier = Modifier
             .fillMaxWidth()
             .height(96.dp),
     ) {
-        Text(text = stringResource(R.string.screen_share), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(if (isSharing) R.string.stop_screen_share else R.string.screen_share),
+            style = MaterialTheme.typography.headlineSmall,
+        )
     }
 }
 
@@ -108,6 +122,14 @@ private fun ScreenShareButton(enabled: Boolean, onClick: () -> Unit) {
 private fun MainScreenLightPreview() {
     Android2CarTheme(darkTheme = false) {
         MainScreen(MainUiState(status = ScreenShareStatus.Connected), false, {}, {})
+    }
+}
+
+@Preview(name = "Dark – projecting", showBackground = true)
+@Composable
+private fun MainScreenDarkProjectingPreview() {
+    Android2CarTheme(darkTheme = true) {
+        MainScreen(MainUiState(status = ScreenShareStatus.Projecting, isSharing = true), true, {}, {})
     }
 }
 

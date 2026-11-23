@@ -85,6 +85,8 @@ private fun ScreenShareStatus.titleRes(): Int = when (this) {
     ScreenShareStatus.Disconnected -> R.string.status_disconnected_title
     ScreenShareStatus.Checking -> R.string.status_checking_title
     ScreenShareStatus.Connected -> R.string.status_connected_title
+    ScreenShareStatus.WaitingForCarDisplay -> R.string.status_waiting_title
+    ScreenShareStatus.Projecting -> R.string.status_projecting_title
     is ScreenShareStatus.Alert -> R.string.status_alert_title
 }
 
@@ -93,10 +95,14 @@ private fun ScreenShareStatus.descriptionRes(): Int = when (this) {
     ScreenShareStatus.Disconnected -> R.string.status_disconnected_description
     ScreenShareStatus.Checking -> R.string.status_checking_description
     ScreenShareStatus.Connected -> R.string.status_connected_description
+    ScreenShareStatus.WaitingForCarDisplay -> R.string.status_waiting_description
+    ScreenShareStatus.Projecting -> R.string.status_projecting_description
     is ScreenShareStatus.Alert -> alert.messageRes()
 }
 
 @StringRes
 private fun UserAlert.messageRes(): Int = when (this) {
     UserAlert.CAR_NOT_CONNECTED -> R.string.alert_car_not_connected
+    UserAlert.CAPTURE_PERMISSION_DENIED -> R.string.alert_capture_denied
+    UserAlert.PROJECTION_FAILED -> R.string.alert_projection_failed
 }
