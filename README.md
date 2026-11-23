@@ -35,6 +35,8 @@ Compilar y ejecutar las pruebas:
 
 En macOS/Linux usa `./gradlew`. El SDK se busca en `local.properties` (`sdk.dir=...`) o en `ANDROID_HOME`.
 
+**Firma de release:** copia `keystore.properties.example` a `keystore.properties` (ignorado por git) y rellena la ruta y las contraseñas de tu keystore. Sin ese archivo, `assembleRelease` genera un APK sin firmar.
+
 ---
 
 ## Permisos
@@ -126,7 +128,7 @@ com.android2car
 
 7. En el móvil, abre Android2Car y pulsa **Screen-share**. En el DHU, abre **Android2Car** desde el lanzador y verás la pantalla del móvil en tiempo real.
 8. **Prueba de pantalla apagada:** con la proyección activa, pulsa el botón de encendido del móvil. El servicio y la notificación siguen activos (lo puedes comprobar con `adb shell dumpsys activity services com.android2car`).
-9. **Prueba del cierre de seguridad:** el DHU no simula velocidad, así que la variante *debug* tolera la falta de datos. Para comprobar el cierre de punta a punta, instala la variante *release*: tendrás que añadir un `signingConfig`, por ejemplo el de debug, de forma temporal. Si el DHU no informa de la velocidad, la app se cerrará a los 3 s con el aviso *"Proyección detenida"*. La lógica de movimiento también está cubierta por pruebas unitarias.
+9. **Prueba del cierre de seguridad:** el DHU no simula velocidad, así que la variante *debug* tolera la falta de datos. Para comprobar el cierre de punta a punta, instala la variante *release* (`.\gradlew.bat installRelease`, con `keystore.properties` configurado, o el APK de la release de GitHub). Si el DHU no informa de la velocidad, la app se cerrará a los 3 s con el aviso *"Proyección detenida"*. La lógica de movimiento también está cubierta por pruebas unitarias.
 
 ---
 
