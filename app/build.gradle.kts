@@ -1,7 +1,13 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+val releaseSigning: Properties? = rootProject.file("keystore.properties")
+    .takeIf { it.isFile }
+    ?.let { file -> Properties().apply { file.inputStream().use(::load) } }
 
 android {
     namespace = "com.android2car"
@@ -17,6 +23,18 @@ android {
         versionName = "1.0.0"
     }
 
+    signingConfigs {
+        // Without keystore.properties (e.g. on CI or a fresh clone) release builds stay unsigned.
+        releaseSigning?.let { props ->
+            create("release") {
+                storeFile = file(props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             // Lets the Desktop Head Unit (which reports no speed data) be used for development.
@@ -27,6 +45,7 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("boolean", "STOP_ON_UNKNOWN_SPEED", "true")
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 
