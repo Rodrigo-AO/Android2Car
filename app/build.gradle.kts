@@ -24,6 +24,7 @@ android {
         }
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("boolean", "STOP_ON_UNKNOWN_SPEED", "true")
         }
@@ -41,6 +42,11 @@ android {
 
     testOptions {
         unitTests.isReturnDefaultValues = true
+    }
+
+    lint {
+        // targetSdk is pinned to Android 14 by the product requirements.
+        disable += "OldTargetApi"
     }
 }
 
